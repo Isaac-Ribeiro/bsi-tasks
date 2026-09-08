@@ -46,3 +46,43 @@ programas. Isso trazia vários problemas, entre eles:
   sobrescrita de dados.
 - **Problemas de segurança**: é difícil definir permissões refinadas (quem pode
   ler/escrever o quê) apenas com permissões de arquivos do sistema operacional.
+
+## Q3. Propriedades ACID (com exemplo de transferência bancária)
+
+Considere uma transferência de R$100 da **Conta A** para a **Conta B**.
+
+### Atomicidade
+A transação é tratada como uma unidade indivisível: ou todas as suas operações
+são executadas, ou nenhuma é. Na transferência, isso significa debitar da Conta A
+**e** creditar na Conta B. As duas ações acontecem juntas ou nenhuma acontece.
+
+*Sem atomicidade*: se o sistema falhar depois do débito e antes do crédito, o
+dinheiro "desaparece". Sai da Conta A mas nunca chega à Conta B.
+
+### Consistência
+A transação leva o banco de dados de um estado válido para outro estado válido,
+respeitando todas as regras/restrições definidas (saldo não pode ficar negativo,
+soma total do dinheiro no sistema deve se manter, etc.).
+
+*Sem consistência*: uma transferência poderia deixar o saldo de uma conta negativo
+além do limite permitido, ou fazer com que o total de dinheiro do banco "aumente"
+ou "diminua" sem explicação, violando as regras de negócio.
+
+### Isolamento
+Transações concorrentes não devem interferir umas nas outras; o resultado deve
+ser equivalente a executá-las em alguma ordem sequencial. Se duas transferências
+envolvendo a Conta A acontecem ao mesmo tempo, uma não deve enxergar um estado
+"parcial" da outra.
+
+*Sem isolamento*: dois débitos simultâneos na mesma conta poderiam ler o mesmo
+saldo inicial antes de qualquer atualização e ambos descontarem o valor a partir
+do saldo antigo, fazendo a conta perder menos dinheiro do que deveria (ou permitir
+saldo negativo indevido).
+
+### Durabilidade
+Uma vez que a transação é confirmada, suas alterações persistem mesmo em
+caso de falhas subsequentes.
+
+*Sem durabilidade*: o sistema poderia confirmar a transferência para o cliente,
+mas, se o servidor reiniciasse logo depois, o crédito na Conta B poderia ser
+perdido, mesmo o cliente tendo recebido a confirmação de sucesso.
