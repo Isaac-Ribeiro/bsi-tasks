@@ -86,3 +86,27 @@ caso de falhas subsequentes.
 *Sem durabilidade*: o sistema poderia confirmar a transferência para o cliente,
 mas, se o servidor reiniciasse logo depois, o crédito na Conta B poderia ser
 perdido, mesmo o cliente tendo recebido a confirmação de sucesso.
+
+## Q4. Identificação da propriedade ACID em cada cenário
+
+**a) Queda de energia deixou o valor debitado, mas não creditado.**
+Propriedade violada: **Atomicidade**. A transação foi executada parcialmente
+(só o débito), quando deveria ser "tudo ou nada". Um SGBD com atomicidade
+garantida faria o retorno ao débito caso o crédito não pudesse ser concluído.
+
+**b) Dois atendentes debitam ao mesmo tempo o mesmo saldo.**
+Propriedade violada: **Isolamento**. O problema é de concorrência: as duas
+transações provavelmente leram o mesmo saldo inicial antes de qualquer commit e
+cada uma aplicou seu débito sobre esse valor desatualizado,
+gerando um resultado diferente do que se fossem executadas em sequência.
+
+**c) O sistema confirma a operação, mas após reiniciar o servidor o dado foi
+perdido.**
+Propriedade violada: **Durabilidade**. O commit foi confirmado ao usuário, mas
+os dados não foram persistidos de forma resistente a falhas, sendo perdidos após o reinício.
+
+**d) Uma transferência que deixaria o saldo abaixo do limite é rejeitada.**
+Propriedade em ação: **Consistência**. O SGBD está justamente evitando a
+violação da consistência. A regra de negócio "saldo não pode ficar abaixo do
+limite" é uma restrição de integridade, ao rejeitar a operação, o SGBD garante
+que o banco de dados permaneça em um estado válido.
