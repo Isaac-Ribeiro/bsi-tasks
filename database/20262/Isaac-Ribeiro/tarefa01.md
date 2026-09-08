@@ -134,3 +134,65 @@ que o banco de dados permaneça em um estado válido.
   reduz esse risco centralizando o acesso aos dados, aplicando restrições de
   integridade referencial e, quando bem modelado, eliminando as
   cópias redundantes que poderiam divergir.
+
+## Q6. Mini-projeto conceitual: empresa de desenvolvimento de software
+
+### a) Principais entidades
+
+- **Cliente**
+- **Projeto**
+- **Squad**
+- **Membro**
+- **Tarefa**
+- **Sprint**
+- **Release**
+
+### b) Principais atributos de cada entidade
+
+- **Cliente**: id_cliente, nome, CNPJ, contato, endereço.
+- **Projeto**: id_projeto, nome, descrição, data_inicio, data_prevista_fim,
+  status.
+- **Squad**: id_squad, nome, data_formacao.
+- **Membro**: id_membro, nome, e-mail, papel, data_entrada.
+- **Tarefa**: id_tarefa, título, descrição, status, prioridade, data_criação, data_conclusão.
+- **Sprint**: id_sprint, número, data_início, data_fim, meta.
+- **Release**: id_release, versão, data_planejada, data_efetiva, descrição das
+  mudanças.
+
+### c) Relacionamentos entre as entidades
+
+- Um **Cliente** pode ter vários **Projetos**, mas cada **Projeto** pertence a
+  um único **Cliente** (1:N).
+- Um **Projeto** é atendido por uma ou mais **Squads** ao longo do tempo, e uma
+  **Squad** pode atender vários **Projetos** (N:N)
+- Uma **Squad** é composta por vários **Membros**, e cada **Membro** pertence a
+  uma única **Squad** por vez (1:N).
+- Um **Projeto** possui várias **Tarefas**, e cada **Tarefa** pertence a um
+  único **Projeto** (1:N).
+- Uma **Tarefa** é atribuída a um ou mais **Membros**, e um **Membro** pode ter várias **Tarefas**.
+   (N:N) se permitir múltiplos responsáveis, (1:N) se apenas um responsável por
+  tarefa.
+- Uma **Sprint** agrupa várias **Tarefas**, e uma **Tarefa** pertence a uma
+  única **Sprint** por vez (1:N).
+- Uma **Squad** planeja várias **Sprints**, e cada **Sprint** pertence a uma
+  única **Squad** (1:N).
+- Um **Projeto** tem várias **Releases**, e cada **Release** pertence a um
+  único **Projeto** (1:N).
+- Uma **Release** pode agrupar entregas de várias **Sprints**, e uma **Sprint**
+  pode contribuir para uma ou mais **Releases** (N:N), dependendo do processo
+  adotado.
+
+### d) Regras de integridade (restrições), em linguagem natural
+
+- Apenas um **líder técnico** e um **supervisor** por squad.
+- Toda **tarefa** precisa estar vinculada a um **projeto**.
+- Toda **tarefa** que está associada a uma **sprint** deve pertencer ao mesmo
+  **projeto** atendido pela squad responsável por essa sprint.
+- Um **membro** não pode estar em duas **squads** ativas ao mesmo tempo.
+- Uma **release** só pode ser marcada como "efetivada" se todas as tarefas
+  vinculadas a ela estiverem com status "concluída".
+- Uma **sprint** não pode ter data de fim anterior à sua data de início.
+- Um **projeto** só pode ser associado a squads que tenham pelo menos um membro
+  com o papel de líder técnico definido.
+- Um **cliente** só pode ter projetos com status "ativo" se possuir pelo menos
+  uma squad alocada no momento.
