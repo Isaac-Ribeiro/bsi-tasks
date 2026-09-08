@@ -110,3 +110,27 @@ Propriedade em ação: **Consistência**. O SGBD está justamente evitando a
 violação da consistência. A regra de negócio "saldo não pode ficar abaixo do
 limite" é uma restrição de integridade, ao rejeitar a operação, o SGBD garante
 que o banco de dados permaneça em um estado válido.
+
+## Q5. Recuperação, integridade, redundância e inconsistência
+
+- **Recuperação**: capacidade do SGBD de restaurar o banco de dados a
+  um estado consistente após falhas. É gerenciada por meio de logs de transação,
+  pontos de verificação e mecanismos de backup/restore, permitindo
+  refazer transações confirmadas ou desfazer transações
+  incompletas.
+
+- **Integridade**: garantia de que os dados armazenados respeitam as regras de
+  negócio e as restrições definidas no schema. O SGBD
+  gerencia isso validando automaticamente cada operação de escrita contra essas
+  restrições e rejeitando operações que as violem.
+
+- **Redundância**: repetição desnecessária do mesmo dado em múltiplos lugares.
+  Um pouco de redundância controlada pode ser usada propositalmente, mas, em geral, o SGBD ajuda a minimizá-la por meio de técnicas de
+  **normalização** do modelo relacional, centralizando os dados e evitando
+  cópias divergentes.
+
+- **Inconsistência**: ocorre quando dados redundantes ficam desatualizados entre
+  si. O SGBD
+  reduz esse risco centralizando o acesso aos dados, aplicando restrições de
+  integridade referencial e, quando bem modelado, eliminando as
+  cópias redundantes que poderiam divergir.
