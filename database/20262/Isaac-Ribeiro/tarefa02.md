@@ -127,3 +127,38 @@ erDiagram
     SPRINT ||--o{ TAREFA : agrupa
     RELEASE }o--o{ TAREFA : agrupa
 ```
+
+## Q4. Mapeamento do Diagrama ER para o Modelo Relacional
+
+**CLIENTE** (**codigo_cliente**, nome, email_contato)
+
+**PROJETO** (**codigo_projeto**, nome, descricao, `codigo_cliente` **FK** → CLIENTE)
+
+**SQUAD** (**codigo_squad**, nome)
+
+**FUNCIONARIO** (**codigo_funcionario**, nome, email, papel, `codigo_squad` **FK** → SQUAD)
+
+**TAREFA** (**codigo_tarefa**, descricao, prioridade, situacao, estimativa_horas,
+`codigo_projeto` **FK** → PROJETO, `codigo_squad` **FK** → SQUAD,
+`codigo_sprint` **FK** → SPRINT, *nullable até a tarefa ser alocada a uma sprint*)
+
+**SPRINT** (**codigo_sprint**, numero, data_inicio, data_fim, `codigo_squad` **FK** → SQUAD)
+
+**RELEASE** (**codigo_release**, versao, data_planejada, situacao_testes,
+`codigo_projeto` **FK** → PROJETO, `codigo_squad` **FK** → SQUAD)
+
+**RELEASE_TAREFA** (**codigo_release** **FK** → RELEASE, **codigo_tarefa** **FK** → TAREFA)
+*(tabela associativa criada para resolver o relacionamento N:N entre RELEASE e TAREFA; a chave primária é composta pelas duas chaves estrangeiras)*
+
+**Resumo de chaves primárias (PK) e estrangeiras (FK):**
+
+| Tabela | Chave Primária | Chaves Estrangeiras |
+|---|---|---|
+| CLIENTE | codigo_cliente | — |
+| PROJETO | codigo_projeto | codigo_cliente → CLIENTE |
+| SQUAD | codigo_squad | — |
+| FUNCIONARIO | codigo_funcionario | codigo_squad → SQUAD |
+| TAREFA | codigo_tarefa | codigo_projeto → PROJETO, codigo_squad → SQUAD, codigo_sprint → SPRINT |
+| SPRINT | codigo_sprint | codigo_squad → SQUAD |
+| RELEASE | codigo_release | codigo_projeto → PROJETO, codigo_squad → SQUAD |
+| RELEASE_TAREFA | (codigo_release, codigo_tarefa) | codigo_release → RELEASE, codigo_tarefa → TAREFA |
