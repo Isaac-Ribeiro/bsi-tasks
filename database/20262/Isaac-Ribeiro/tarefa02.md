@@ -162,3 +162,25 @@ erDiagram
 | SPRINT | codigo_sprint | codigo_squad → SQUAD |
 | RELEASE | codigo_release | codigo_projeto → PROJETO, codigo_squad → SQUAD |
 | RELEASE_TAREFA | (codigo_release, codigo_tarefa) | codigo_release → RELEASE, codigo_tarefa → TAREFA |
+
+## Q5. Restrições de integridade referencial
+
+- Uma **tarefa** só pode existir se estiver vinculada a um **projeto**
+  existente.
+- Uma **tarefa** só pode ser resolvida por uma **squad** que exista
+  cadastrada no sistema.
+- Um **projeto** só pode existir vinculado a um **cliente** existente.
+- Um **funcionário** só pode pertencer a uma **squad** que já esteja
+  cadastrada.
+- Uma **sprint** só pode existir vinculada a uma **squad** existente.
+- Uma **release** só pode existir vinculada a um **projeto** e a
+  uma **squad**, ambos já cadastrados.
+- Não é permitido excluir um **cliente** que ainda possua **projetos**
+  cadastrados.
+- Não é permitido excluir uma **squad** que ainda possua **funcionários**,
+  **tarefas**, **sprints** ou **releases** vinculados a ela.
+- Na tabela associativa **RELEASE_TAREFA**, cada par (release, tarefa) deve
+  referenciar uma release e uma tarefa que realmente existam nas tabelas
+  RELEASE e TAREFA, respectivamente.
+- Toda **squad** deve possuir, entre seus funcionários, ao menos um membro
+  com o papel de **líder técnico**.
