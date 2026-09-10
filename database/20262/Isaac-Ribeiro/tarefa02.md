@@ -19,3 +19,50 @@ O MER é composto essencialmente por três elementos:
    as entidades. Cada relacionamento possui uma
    **cardinalidade**, que indica quantas instâncias de uma entidade podem se
    associar a quantas instâncias da outra.
+
+## Q2. Notações diferentes para Diagramas ER
+
+Existem várias notações gráficas para representar os mesmos conceitos de um
+diagrama ER. Algumas das mais conhecidas:
+
+- **Notação de Chen**: entidades são retângulos, atributos são
+  elipses ligadas à entidade por uma linha, relacionamentos são losangos.
+  Entidades fracas/subordinadas são representadas por um **retângulo duplo**,
+  e o relacionamento identificador correspondente por um **losango duplo**.
+  A cardinalidade é anotada nas linhas como números ou pares (ex.: "1", "N",
+  ou "(0,1)", "(1,N)").
+
+- **Notação Crow's Foot**: muito usada em ferramentas de
+  modelagem modernas (e também é a notação usada pelo Mermaid.js). As
+  entidades são retângulos com os atributos listados dentro. A cardinalidade
+  é representada por símbolos nas pontas da linha de relacionamento: um traço
+  simples (|) indica "um", um círculo (o) indica "zero" (opcional), e um
+  "pé de galinha" (<) indica "muitos". Combinações como `||--o{` indicam
+  "exatamente um" de um lado e "zero ou muitos" do outro.
+
+- **Notação UML**: entidades viram
+  classes, atributos são listados com seus tipos dentro da classe, e a
+  cardinalidade é escrita diretamente nas extremidades da associação usando a
+  notação `0..1`, `1`, `0..*`, `1..*`, em vez de símbolos gráficos.
+
+- **Notação IDEF1X**: usada em modelagem de dados corporativa, diferencia
+  entidades independentes (retângulo de canto reto) de entidades dependentes
+  (retângulo de canto arredondado), e usa uma bolinha preta na ponta da linha
+  para indicar cardinalidade "muitos".
+
+**Exemplo comparativo (cardinalidade "um para muitos"):**
+
+| Notação | Como representa "um para muitos" |
+|---|---|
+| Chen | Números "1" e "N" escritos ao lado das linhas que ligam as entidades ao losango |
+| Crow's Foot / Mermaid | `\|\|--o{` (um trace simples de um lado, "pé de galinha" do outro) |
+| UML | `1` de um lado e `0..*` do outro, escritos nas pontas da associação |
+
+**Exemplo comparativo (entidade fraca/subordinada, ex.: "Dependente" que só
+existe se existir um "Funcionário"):**
+
+| Notação | Como representa entidade fraca |
+|---|---|
+| Chen | Retângulo de borda dupla + losango de borda dupla no relacionamento identificador |
+| Crow's Foot | Geralmente um retângulo normal, mas a chave estrangeira/identificação é indicada de forma textual ou por uma linha "identifying relationship" (traço contínuo) versus "non-identifying" (traço tracejado) |
+| IDEF1X | Retângulo de cantos arredondados para a entidade dependente |
