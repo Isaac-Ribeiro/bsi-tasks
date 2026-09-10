@@ -66,3 +66,64 @@ existe se existir um "Funcionário"):**
 | Chen | Retângulo de borda dupla + losango de borda dupla no relacionamento identificador |
 | Crow's Foot | Geralmente um retângulo normal, mas a chave estrangeira/identificação é indicada de forma textual ou por uma linha "identifying relationship" (traço contínuo) versus "non-identifying" (traço tracejado) |
 | IDEF1X | Retângulo de cantos arredondados para a entidade dependente |
+
+## Q3. Diagrama ER — Empresa de desenvolvimento de software
+
+```mermaid
+erDiagram
+    CLIENTE {
+        string codigo_cliente PK
+        string nome
+        string email_contato
+    }
+
+    PROJETO {
+        string codigo_projeto PK
+        string nome
+        string descricao
+    }
+
+    SQUAD {
+        string codigo_squad PK
+        string nome
+    }
+
+    FUNCIONARIO {
+        string codigo_funcionario PK
+        string nome
+        string email
+        string papel
+    }
+
+    TAREFA {
+        string codigo_tarefa PK
+        string descricao
+        string prioridade
+        string situacao
+        int estimativa_horas
+    }
+
+    SPRINT {
+        string codigo_sprint PK
+        int numero
+        date data_inicio
+        date data_fim
+    }
+
+    RELEASE {
+        string codigo_release PK
+        string versao
+        date data_planejada
+        string situacao_testes
+    }
+
+    CLIENTE ||--o{ PROJETO : possui
+    PROJETO ||--o{ TAREFA : contem
+    PROJETO ||--o{ RELEASE : recebe
+    SQUAD ||--o{ FUNCIONARIO : e_composta_por
+    SQUAD ||--o{ TAREFA : resolve
+    SQUAD ||--o{ SPRINT : planeja
+    SQUAD ||--o{ RELEASE : planeja
+    SPRINT ||--o{ TAREFA : agrupa
+    RELEASE }o--o{ TAREFA : agrupa
+```
